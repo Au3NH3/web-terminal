@@ -1,6 +1,7 @@
 // ----------
 // author: https://github.com/au3nh3
-// last modify: 2023/12/31 19:15
+// version:
+// last modify:
 // ----------
 
 const outputs = document.querySelector('#outputs')
@@ -8,25 +9,25 @@ const form_cmd = document.querySelector('#form_cmd')
 const  prompt = document.querySelector('#prompt')
 const  input = document.querySelector('#input')
 
-var MAX_CMD_NUM = 5
-var MAX_HIST_NUM = 8
+var author = "https://github.com/au3nh3/web-terminal"
+var MAX_HIST_NUM = 20
 var prompt_str = 'test@cmd$ '
 //var cmd_in = document.createElement('span')
 var prompt_span = '<span class="prompt">' + prompt_str + '</span>'
 var prompt_div = '<div class="prompt">' + prompt_str + '</div>'
 var banner_str = ' <div>Welcome! This is a testing page</div>'
 var nav_str = " <div>go to <a href='/index.html'>home</a></div>"
-var ncmd = 0
 var hist_cmd = []
-var hist_index = 0   
+var hist_index = 0
+var MAX_SCREEN_BUFF = window.innerHeight * 2
 
 prompt.innerHTML = prompt_str
 outputs.innerHTML = banner_str + nav_str
+console.log('visit', author, 'for help')
 
 input.focus()
 document.addEventListener('click', (event)=>{
-	event_element = event.target.tagName
-	if (event_element == 'HTML') {
+	if (event.target.tagName == 'HTML' || event.target.id == 'footer-blank') {
 		input.focus()
 	}
 	//console.log(event.target.tagName)
@@ -59,22 +60,23 @@ input.addEventListener('keyup', (event)=>{
 })
 
 function request_cmd(cmd) {
-	return 'your input cmd is: ' + cmd
+	//fetch('http://url/api')
+	res = 'your input cmd is: ' + cmd + '\nsuccess'
+	return res
 }
 form_cmd.addEventListener('submit', (event)=>{
 	event.preventDefault()
 	let cmd = input.value.trim()
 	hist_index = hist_cmd.length
+	if (document.body.clientHeight >= MAX_SCREEN_BUFF) {
+		outputs.innerHTML = nav_str
+		if (!cmd) {return}
+	}
 	let div_in  = document.createElement('div')
 	div_in.innerHTML = prompt_span + input.value
-	if (ncmd >= MAX_CMD_NUM) {
-		outputs.innerHTML = nav_str
-		ncmd = 0
-	}
 	outputs.appendChild(div_in)
 	if (!cmd) {
-		ncmd += 0.5
-		console.log(ncmd)
+		scrollTo(0, MAX_SCREEN_BUFF)
 		return
 	}
 	if (cmd != hist_cmd[hist_index-1]) {
@@ -87,7 +89,8 @@ form_cmd.addEventListener('submit', (event)=>{
 	let res = ''
 	if (cmd == 'clear' || cmd == 'cls') {
 		outputs.innerHTML = nav_str
-		ncmd = 0
+		input.value = ''
+		return
 	}
 	else if (cmd == 'hist') {
 		for (index in hist_cmd) {
@@ -102,6 +105,7 @@ form_cmd.addEventListener('submit', (event)=>{
 	div_out.innerHTML = res
 	outputs.appendChild(div_out)
 	input.value = ''
-	ncmd++
-	console.log(ncmd)
+	scrollTo(0, MAX_SCREEN_BUFF)
+	//input.focus()
+	//console.log(ncmd)
 })

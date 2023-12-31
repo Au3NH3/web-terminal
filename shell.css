@@ -1,5 +1,7 @@
 /* ---------- */
-/* author: https://github.com/au3nh3 */
+/* author: https://github.com/au3nh3
+/* version:
+/* last modify:
 /* ---------- */
 
 body {
@@ -31,4 +33,8 @@ input {
 a {
   color: dodgerblue;
   /*text-decoration: none;*/
+}
+#footer-blank {
+  /*width: 100%;*/
+  height: 100px;
 }

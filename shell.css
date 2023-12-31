@@ -1,0 +1,34 @@
+/* ---------- */
+/* author: https://github.com/au3nh3 */
+/* ---------- */
+
+body {
+  /*padding: 1em;*/
+  background: black;
+  color: azure;
+  /*font-size: 20px;*/
+}
+#outputs {
+  white-space: pre;
+}
+.out {
+  padding-left: 0.5em;
+}
+input {
+  background-color: initial;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+  width: 80%;
+  outline: 0;
+}
+/*input:focus {
+  outline: 0;
+}*/
+.prompt {
+  color: lawngreen;
+}
+a {
+  color: dodgerblue;
+  /*text-decoration: none;*/
+}

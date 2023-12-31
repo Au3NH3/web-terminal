@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+  <title>shell</title>
+  <style>
+    body {
+      /*padding: 1em;*/
+      background: black;
+      color: azure;
+      /*font-size: 18px;*/
+    }
+    #outputs {
+      white-space: pre;
+    }
+    input {
+      background-color: initial;
+      font-size: inherit;
+      color: inherit;
+      border: none;
+      width: 80%;
+    }
+    input:focus {
+      outline: 0;
+    }
+    .prompt {
+      color: lawngreen;
+    }
+    a {
+      color: dodgerblue;
+      /*text-decoration: none;*/
+    }
+  </style>
+</head>
+<body>
+  <div id='outputs'>
+<div>Welcome! This is a testing page</div>
+<div>go to <a href='/index.html'>home</a></div>
+</div>
+
+  <form id='form_cmd' autocomplete='off'>
+    <div>
+    <label for='input' id='prompt' class='prompt'></label>
+    <input form='form_cmd' id='input' name='input'>
+    </div>
+  </form>
+  
+  <script>
+    const all = document.querySelector('#all')
+    const outputs = document.querySelector('#outputs')
+    const form_cmd = document.querySelector('#form_cmd')
+    const  prompt = document.querySelector('#prompt')
+    const  input = document.querySelector('#input')
+    //const end = document.querySelector('#end')
+    
+    var MAX_CMD_NUM = 15
+    var n = 0
+    var prompt_str = 'test@cmd$ '
+    //var cmd_in = document.createElement('span')
+    var prompt_span = '<span class="prompt">' + prompt_str + '</span>'
+    //var history = []    
+
+    //form_cmd.prepend(prompt_span)
+    prompt.innerHTML = prompt_str
+    //form_cmd.innerHTML = prompt_span
+    //label_prompt.innerHTML = prompt_str
+
+    form_cmd.addEventListener('submit', (event)=>{
+      event.preventDefault()
+      let cmd = form_cmd.input.value.trim()
+      if (n >= MAX_CMD_NUM) {
+        outputs.innerHTML = ''
+        n = 0
+      }
+      let div_in  = document.createElement('div')
+      let div_out = document.createElement('div')
+      //div_out.setAttribute("class", "out")
+      let res = ' '
+      if (cmd) {
+        res += 'your input cmd is: ' + cmd
+      }
+      div_in.innerHTML = prompt_span + form_cmd.input.value
+      outputs.appendChild(div_in)
+      div_out.innerHTML = res
+      outputs.appendChild(div_out)
+      n++
+    })
+  </script>
+</body>

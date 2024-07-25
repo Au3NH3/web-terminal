@@ -59,11 +59,13 @@ input.addEventListener('keyup', (event)=>{
 	//console.log(hist_index, hist_cmd.length, curr_input)
 })
 
+/*
 function request_cmd(cmd) {
-	//fetch('http://url/api')
-	res = 'your input cmd is: ' + cmd + '\nsuccess'
-	return res
+	fetch('api.php')
+	//res = 'your input cmd is: ' + cmd + '\nsuccess'
+	//return res
 }
+*/
 form_cmd.addEventListener('submit', (event)=>{
 	event.preventDefault()
 	let cmd = input.value.trim()
@@ -86,24 +88,35 @@ form_cmd.addEventListener('submit', (event)=>{
 		}
 		hist_cmd[hist_index++] = cmd
 	}
-	let res = ''
+
 	if (cmd == 'clear' || cmd == 'cls') {
 		outputs.innerHTML = nav_str
 		input.value = ''
 		return
 	}
-	else if (cmd == 'hist') {
+	
+	//
+	let div_out = document.createElement('div')
+	div_out.setAttribute("class", "out")
+	outputs.appendChild(div_out)
+	if (cmd == 'hist') {
+		let res = ''
 		for (index in hist_cmd) {
 		  res += index + '\t\t' + hist_cmd[index] + '\n'
 		}
+		div_out.innerHTML = res
 	}
 	else {
-		res = request_cmd(cmd)
+		//res = request_cmd(cmd)
+		//let data = new FormData(form_cmd)
+		let data = new FormData()
+		data.append('cmd', cmd)
+		fetch('api.php', {method: 'post', body: data})
+			.then(res => res.text())
+			.then(text => {div_out.innerHTML = text})
+		div_out.innerHTML = "running..."
 	}
-	let div_out = document.createElement('div')
-	div_out.setAttribute("class", "out")
-	div_out.innerHTML = res
-	outputs.appendChild(div_out)
+	
 	input.value = ''
 	scrollTo(0, MAX_SCREEN_BUFF)
 	//input.focus()
